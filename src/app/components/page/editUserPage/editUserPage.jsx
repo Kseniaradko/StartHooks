@@ -40,12 +40,12 @@ const EditUserPage = () => {
         if (!isValid) return;
         const { profession, qualities } = data;
         api.users
-            .update(userId, {
-                ...data,
-                profession: getProfessionById(profession),
-                qualities: getQualities(qualities)
-            })
-            .then((data) => history.push(`/users/${data._id}`));
+          .update(userId, {
+              ...data,
+              profession: getProfessionById(profession),
+              qualities: getQualities(qualities)
+          })
+          .then((data) => history.push(`/users/${data._id}`));
         console.log(data);
     };
     const transformData = (data) => {
@@ -54,12 +54,12 @@ const EditUserPage = () => {
     useEffect(() => {
         setIsLoading(true);
         api.users.getById(userId).then(({ profession, qualities, ...data }) =>
-            setData((prevState) => ({
-                ...prevState,
-                ...data,
-                qualities: transformData(qualities),
-                profession: profession._id
-            }))
+          setData((prevState) => ({
+              ...prevState,
+              ...data,
+              qualities: transformData(qualities),
+              profession: profession._id
+          }))
         );
         api.qualities.fetchAll().then((data) => setQualities(data));
         api.professions.fetchAll().then((data) => setProfession(data));
@@ -83,9 +83,7 @@ const EditUserPage = () => {
             }
         }
     };
-    useEffect(() => {
-        validate();
-    }, [data]);
+    useEffect(() => validate(), [data]);
     const handleChange = (target) => {
         setData((prevState) => ({
             ...prevState,
@@ -99,48 +97,48 @@ const EditUserPage = () => {
     };
     const isValid = Object.keys(errors).length === 0;
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-6 offset-md-3 shadow p-4">
-                    {!isLoading && Object.keys(professions).length > 0 ? (
-                        <form onSubmit={handleSubmit}>
-                            <TextField
-                                label="Имя"
-                                name="name"
-                                value={data.name}
-                                onChange={handleChange}
-                                error={errors.name}
-                            />
-                            <TextField
-                                label="Электронная почта"
-                                name="email"
-                                value={data.email}
-                                onChange={handleChange}
-                                error={errors.email}
-                            />
-                            <SelectField
-                                label="Выбери свою профессию"
-                                defaultOption="Choose..."
-                                options={professions}
-                                name="profession"
-                                onChange={handleChange}
-                                value={data.profession}
-                                error={errors.profession}
-                            />
-                            <button
-                                type="submit"
-                                disabled={!isValid}
-                                className="btn btn-primary w-100 mx-auto"
-                            >
-                                Обновить
-                            </button>
-                        </form>
-                    ) : (
-                        "Loading..."
-                    )}
-                </div>
-            </div>
-        </div>
+      <div className="container mt-5">
+          <div className="row">
+              <div className="col-md-6 offset-md-3 shadow p-4">
+                  {!isLoading && Object.keys(professions).length > 0 ? (
+                    <form onSubmit={handleSubmit}>
+                        <TextField
+                          label="Имя"
+                          name="name"
+                          value={data.name}
+                          onChange={handleChange}
+                          error={errors.name}
+                        />
+                        <TextField
+                          label="Электронная почта"
+                          name="email"
+                          value={data.email}
+                          onChange={handleChange}
+                          error={errors.email}
+                        />
+                        <SelectField
+                          label="Выбери свою профессию"
+                          defaultOption="Choose..."
+                          options={professions}
+                          name="profession"
+                          onChange={handleChange}
+                          value={data.profession}
+                          error={errors.profession}
+                        />
+                        <button
+                          type="submit"
+                          disabled={!isValid}
+                          className="btn btn-primary w-100 mx-auto"
+                        >
+                            Обновить
+                        </button>
+                    </form>
+                  ) : (
+                    "Loading..."
+                  )}
+              </div>
+          </div>
+      </div>
     );
 };
 
